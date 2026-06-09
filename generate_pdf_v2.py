@@ -45,28 +45,28 @@ ref_url_s    = S('Ru', fontSize=6.5,fontName='Helvetica',        textColor=color
 # ─── Gradient placeholder images ───────────────────────────────────────────
 IMG_DATA = [
     {
-        'filename': 'ref_images/img1_materials.png',
+        'filename': 'ref_images/img1_materials.jpg',
         'colors':   [(210,175,130), (180,140,90)],
         'label':    'Materiales Montessori sobre mesa',
-        'icon':     '📦',
+        'icon':     '',
     },
     {
-        'filename': 'ref_images/img2_shelf.png',
+        'filename': 'ref_images/img2_shelf.jpg',
         'colors':   [(190,160,120), (160,125,80)],
         'label':    'Estantería baja con materiales',
-        'icon':     '📚',
+        'icon':     '',
     },
     {
-        'filename': 'ref_images/img3_hands.png',
+        'filename': 'ref_images/img3_hands.jpg',
         'colors':   [(220,185,145), (195,155,105)],
         'label':    'Manos de niño — close-up',
-        'icon':     '🤲',
+        'icon':     '',
     },
     {
-        'filename': 'ref_images/img4_garden.png',
+        'filename': 'ref_images/img4_garden.jpg',
         'colors':   [(160,200,140), (120,170,100)],
         'label':    'Jardín exterior del colegio',
-        'icon':     '🌿',
+        'icon':     '',
     },
 ]
 
@@ -79,29 +79,13 @@ IMG_URLS = [
 
 os.makedirs('ref_images', exist_ok=True)
 
-def make_gradient_img(path, color1, color2, w=640, h=200, label=''):
-    img = Image.new('RGB', (w, h))
-    draw = ImageDraw.Draw(img)
-    for x in range(w):
-        r = int(color1[0] + (color2[0]-color1[0]) * x/w)
-        g = int(color1[1] + (color2[1]-color1[1]) * x/w)
-        b = int(color1[2] + (color2[2]-color1[2]) * x/w)
-        draw.line([(x,0),(x,h)], fill=(r,g,b))
-    # subtle vignette overlay
-    vig = Image.new('RGBA', (w,h), (0,0,0,0))
-    vd = ImageDraw.Draw(vig)
-    for i in range(40):
-        alpha = int(60 * (i/40))
-        vd.rectangle([i, i, w-i, h-i], outline=(0,0,0,alpha))
-    img.paste(Image.alpha_composite(img.convert('RGBA'), vig).convert('RGB'))
-    # label text placeholder
-    draw = ImageDraw.Draw(img)
-    draw.rectangle([w//2-120, h//2-14, w//2+120, h//2+14], fill=(255,255,255,180))
-    img.save(path)
-    return path
-
+# Resize real images to PDF-friendly size
 for d in IMG_DATA:
-    make_gradient_img(d['filename'], d['colors'][0], d['colors'][1], label=d['label'])
+    path = d['filename']
+    if os.path.exists(path) and os.path.getsize(path) > 10000:
+        img = Image.open(path)
+        img.thumbnail((900, 400), Image.LANCZOS)
+        img.save(path, quality=85)
 
 # ─── Helpers ───────────────────────────────────────────────────────────────
 def section_header(text):
@@ -161,7 +145,7 @@ def ref_image_block(img_path, caption, url, w=8.2*cm):
     data = [
         [img],
         [Paragraph(f'<b>{caption}</b>', img_cap_s)],
-        [Paragraph(f'↗ Ver imagen generada por IA', ref_url_s)],
+        [Paragraph('Adobe Stock — Referencia visual', ref_url_s)],
     ]
     t = Table(data, colWidths=[w])
     t.setStyle(TableStyle([
@@ -305,13 +289,13 @@ story.append(Spacer(1, 0.25*cm))
 
 # 2x2 image grid
 story.append(image_grid([
-    ('ref_images/img1_materials.png', 'Materiales sobre mesa — Macro Shot', IMG_URLS[0]),
-    ('ref_images/img2_shelf.png',     'Estantería Montessori organizada',   IMG_URLS[1]),
+    ('ref_images/img1_materials.jpg', 'Materiales sobre mesa — Macro Shot', ''),
+    ('ref_images/img2_shelf.jpg',     'Estantería Montessori organizada',   ''),
 ]))
 story.append(Spacer(1, 0.2*cm))
 story.append(image_grid([
-    ('ref_images/img3_hands.png', 'Close-up manos de niño — Utensilios', IMG_URLS[2]),
-    ('ref_images/img4_garden.png','Exterior jardín — Escenas 4 y 5',      IMG_URLS[3]),
+    ('ref_images/img3_hands.jpg', 'Niña trabajando con materiales Montessori', ''),
+    ('ref_images/img4_garden.jpg','Materiales matemáticos Montessori',          ''),
 ]))
 story.append(Spacer(1, 0.5*cm))
 
