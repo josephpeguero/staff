@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cotización – Fotografía Recorrido Virtual 360°</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #2d2d2d;
+      font-size: 14px;
+    }
+    .page {
+      max-width: 820px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: #fff;
+      padding: 40px 48px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .header .brand h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .header .brand p {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .header .meta {
+      text-align: right;
+      font-size: 12px;
+      opacity: 0.85;
+      line-height: 1.8;
+    }
+    .header .meta strong {
+      font-size: 22px;
+      display: block;
+      color: #e94560;
+      letter-spacing: 1px;
+    }
+
+    /* BADGE */
+    .badge-bar {
+      background: #e94560;
+      color: #fff;
+      padding: 10px 48px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* BODY */
+    .body { padding: 40px 48px; }
+
+    /* CLIENT / PROJECT */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+    .card {
+      background: #f8f9fc;
+      border-radius: 8px;
+      padding: 20px 24px;
+      border-left: 4px solid #e94560;
+    }
+    .card h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #2d2d2d;
+    }
+    .card .placeholder {
+      color: #bbb;
+      font-style: italic;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #e94560;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* SCOPE TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 36px;
+    }
+    thead th {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    thead th:last-child { text-align: right; }
+    tbody tr:nth-child(even) { background: #f8f9fc; }
+    tbody td {
+      padding: 13px 16px;
+      vertical-align: top;
+      font-size: 13.5px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    tbody td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+    tbody td .desc { font-size: 12px; color: #888; margin-top: 3px; }
+
+    /* TOTALS */
+    .totals {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 36px;
+    }
+    .totals-box {
+      width: 300px;
+    }
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 13.5px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .totals-row.total {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 6px;
+      border: none;
+      margin-top: 8px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .totals-row.deposit {
+      color: #e94560;
+      font-weight: 600;
+    }
+
+    /* PAYMENT */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .payment-step {
+      background: #f8f9fc;
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: #e94560;
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .step-info h4 { font-size: 13px; margin-bottom: 4px; }
+    .step-info p { font-size: 12px; color: #777; line-height: 1.5; }
+
+    /* TERMS */
+    .terms {
+      background: #f8f9fc;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .terms ul {
+      list-style: none;
+      padding: 0;
+    }
+    .terms ul li {
+      font-size: 12.5px;
+      color: #555;
+      padding: 5px 0;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .terms ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #e94560;
+      font-weight: 700;
+    }
+
+    /* SIGNATURE */
+    .signature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+    .sig-box {
+      border-top: 2px solid #2d2d2d;
+      padding-top: 10px;
+      font-size: 12px;
+      color: #888;
+    }
+    .sig-box strong { display: block; color: #2d2d2d; font-size: 13px; margin-bottom: 4px; }
+
+    /* FOOTER */
+    .footer {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 18px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .footer span { color: #e94560; }
+
+    @media print {
+      body { background: #fff; }
+      .page { box-shadow: none; margin: 0; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">
+      <h1>TU NOMBRE / EMPRESA</h1>
+      <p>Fotografía Profesional · Recorridos Virtuales 360°</p>
+    </div>
+    <div class="meta">
+      <strong>COT-2026-001</strong>
+      Fecha: 09 de junio de 2026<br>
+      Válida hasta: 24 de junio de 2026<br>
+      contacto@tuempresa.com
+    </div>
+  </div>
+
+  <div class="badge-bar">Recorrido Virtual Fotográfico 360° — Propiedad Inmobiliaria</div>
+
+  <div class="body">
+
+    <!-- CLIENT + PROJECT -->
+    <div class="two-col">
+      <div class="card">
+        <h3>Cliente</h3>
+        <p>
+          <strong class="placeholder">Nombre del Cliente</strong><br>
+          <span class="placeholder">Empresa / Inmobiliaria</span><br>
+          <span class="placeholder">Tel: +1 (000) 000-0000</span><br>
+          <span class="placeholder">email@cliente.com</span>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Proyecto</h3>
+        <p>
+          <strong>Recorrido Virtual 360°</strong><br>
+          Propiedad inmobiliaria mediana<br>
+          (100 – 300 m² / 3–4 habitaciones)<br>
+          <span class="placeholder">Dirección de la propiedad</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- SCOPE OF WORK -->
+    <div class="section-title">Alcance del Servicio</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Servicio</th>
+          <th style="width:35%">Detalle</th>
+          <th style="width:12%">Cant.</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Sesión fotográfica 360°
+            <div class="desc">Captura en sitio con cámara profesional 360°</div>
+          </td>
+          <td>Hasta 12 escenas panorámicas (habitaciones, áreas comunes, exterior)</td>
+          <td>1 sesión</td>
+          <td>$180.00</td>
+        </tr>
+        <tr>
+          <td>
+            Edición y procesamiento
+            <div class="desc">Stitching, corrección HDR, retoque de interiores</div>
+          </td>
+          <td>Post-producción de todas las escenas capturadas</td>
+          <td>12 escenas</td>
+          <td>$96.00</td>
+        </tr>
+        <tr>
+          <td>
+            Ensamblaje del tour virtual
+            <div class="desc">Construcción del recorrido navegable interactivo</div>
+          </td>
+          <td>Tour con navegación entre escenas, mapa de planta opcional</td>
+          <td>1 tour</td>
+          <td>$60.00</td>
+        </tr>
+        <tr>
+          <td>
+            Hosting del tour — 12 meses
+            <div class="desc">Enlace compartible + código embed para sitio web</div>
+          </td>
+          <td>Plataforma en línea, acceso ilimitado de visitantes</td>
+          <td>1 año</td>
+          <td>$60.00</td>
+        </tr>
+        <tr>
+          <td>
+            Entrega de archivos finales
+            <div class="desc">Imágenes equirectangulares en alta resolución</div>
+          </td>
+          <td>Archivos RAW + editados via descarga (Google Drive / WeTransfer)</td>
+          <td>1 set</td>
+          <td>Incluido</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- OPTIONAL ADD-ONS -->
+    <div class="section-title">Servicios Adicionales (Opcionales)</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Servicio Extra</th>
+          <th>Descripción</th>
+          <th>Cant.</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Hotspots interactivos
+            <div class="desc">Puntos clicables con info, fotos o links</div>
+          </td>
+          <td>Hasta 10 hotspots con texto e imagen</td>
+          <td>1 set</td>
+          <td>+$40.00</td>
+        </tr>
+        <tr>
+          <td>
+            Integración Google Street View
+            <div class="desc">Publicación en perfil de Google Maps</div>
+          </td>
+          <td>Verificación y publicación oficial</td>
+          <td>1</td>
+          <td>+$50.00</td>
+        </tr>
+        <tr>
+          <td>
+            Branding personalizado
+            <div class="desc">Logo del cliente + pantalla de bienvenida</div>
+          </td>
+          <td>Personalización visual del tour</td>
+          <td>1</td>
+          <td>+$30.00</td>
+        </tr>
+        <tr>
+          <td>
+            Fotos tradicionales adicionales
+            <div class="desc">Fotografía de interiores en alta resolución</div>
+          </td>
+          <td>Paquete de 20 fotos editadas</td>
+          <td>20 fotos</td>
+          <td>+$80.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- TOTALS -->
+    <div class="totals">
+      <div class="totals-box">
+        <div class="totals-row">
+          <span>Subtotal servicios base</span>
+          <span>$396.00</span>
+        </div>
+        <div class="totals-row">
+          <span>Gastos de traslado</span>
+          <span>Por cotizar</span>
+        </div>
+        <div class="totals-row deposit">
+          <span>Anticipo requerido (50%)</span>
+          <span>$198.00</span>
+        </div>
+        <div class="totals-row total">
+          <span>TOTAL</span>
+          <span>$396.00 USD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="section-title">Esquema de Pago</div>
+    <div class="payment-grid">
+      <div class="payment-step">
+        <div class="step-num">1</div>
+        <div class="step-info">
+          <h4>Anticipo — 50% ($198.00)</h4>
+          <p>Al momento de aceptar esta cotización. Confirma la fecha de sesión y reserva el equipo.</p>
+        </div>
+      </div>
+      <div class="payment-step">
+        <div class="step-num">2</div>
+        <div class="step-info">
+          <h4>Saldo — 50% ($198.00)</h4>
+          <p>Al entregar el tour finalizado y los archivos, antes de compartir el enlace al cliente.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMS -->
+    <div class="section-title">Términos y Condiciones</div>
+    <div class="terms">
+      <ul>
+        <li>El anticipo no es reembolsable una vez confirmada la fecha de sesión.</li>
+        <li>Tiempo de entrega estimado: <strong>5–7 días hábiles</strong> tras la sesión fotográfica.</li>
+        <li>Se incluye <strong>1 ronda de revisiones</strong> sin costo adicional. Revisiones adicionales se cotizarán por separado.</li>
+        <li>El cliente debe garantizar acceso al inmueble en el horario pactado. Reprogramaciones con menos de 24 hrs tienen cargo de $50.00.</li>
+        <li>El hosting de 12 meses inicia en la fecha de entrega del tour. La renovación anual es $50.00 USD.</li>
+        <li>Los archivos finales son propiedad del cliente tras el pago completo.</li>
+        <li>Esta cotización tiene vigencia de <strong>15 días calendario</strong> a partir de la fecha de emisión.</li>
+        <li>Métodos de pago aceptados: transferencia bancaria, Zelle, PayPal.</li>
+      </ul>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="section-title">Aceptación</div>
+    <div class="signature-row">
+      <div class="sig-box">
+        <strong>Proveedor del Servicio</strong>
+        Tu Nombre<br>
+        Fecha: ___________________
+      </div>
+      <div class="sig-box">
+        <strong>Cliente</strong>
+        Nombre: ___________________<br>
+        Fecha: ___________________
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <div class="footer">
+    Gracias por su confianza · <span>TU NOMBRE / EMPRESA</span> · Fotografía 360° Profesional
+  </div>
+</div>
+</body>
+</html>
